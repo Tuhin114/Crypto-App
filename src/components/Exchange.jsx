@@ -19,7 +19,7 @@ const Exchange = () => {
   useEffect(() => {
     const fetchExchanges = async () => {
       try {
-        const { data } = await axios.get(`${server}/exhanges`);
+        const { data } = await axios.get(`${server}/exchanges`);
         setExchanges(data);
         setLoading(false);
       } catch (error) {

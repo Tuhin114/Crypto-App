@@ -1,7 +1,7 @@
 import axios from "axios";
 import { React, useEffect, useState } from "react";
 import { server } from "../index";
-import { Button, Container, HStack } from "@chakra-ui/react";
+import { Button, Container, HStack, Radio, RadioGroup } from "@chakra-ui/react";
 import Loader from "./Loader";
 import Error from "./Error";
 import CoinCard from "./CoinCard";
@@ -49,7 +49,14 @@ const Coins = () => {
         <Loader />
       ) : (
         <>
-          <HStack wrap={"wrap"}>
+          <RadioGroup value={currency} onChange={setCurrency} p={"8"}>
+            <HStack spacing={"4"}>
+              <Radio value={"inr"}>INR</Radio>
+              <Radio value={"usd"}>EUR</Radio>
+              <Radio value={"eur"}>USD</Radio>
+            </HStack>
+          </RadioGroup>
+          <HStack wrap={"wrap"} justifyContent={"space-between"}>
             {coins.map((i) => (
               <CoinCard
                 id={i.id}
@@ -67,6 +74,7 @@ const Coins = () => {
           <HStack w={"full"} overflow={"auto"} p={"8"}>
             {btns.map((item, index) => (
               <Button
+                key={index}
                 bgColor={"blackAlpha.900"}
                 color={"white"}
                 onClick={() => changePage(index + 1)}

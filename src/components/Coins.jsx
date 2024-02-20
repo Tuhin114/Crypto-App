@@ -1,16 +1,10 @@
 import axios from "axios";
 import { React, useEffect, useState } from "react";
 import { server } from "../index";
-import {
-  Container,
-  HStack,
-  Heading,
-  Image,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Container, HStack } from "@chakra-ui/react";
 import Loader from "./Loader";
 import Error from "./Error";
+import CoinCard from "./CoinCard";
 
 const Coins = () => {
   const [coins, setCoins] = useState([]);
@@ -18,6 +12,9 @@ const Coins = () => {
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
   const [currency, setCurrency] = useState("inr");
+
+  const currencySymbol =
+    currency === "inr" ? "₹" : currency === "eur" ? "€" : "$";
   useEffect(() => {
     const fetchCoins = async () => {
       try {
@@ -46,50 +43,21 @@ const Coins = () => {
         <>
           <HStack wrap={"wrap"}>
             {coins.map((i) => (
-              <ExchangeCard
+              <CoinCard
+                id={i.id}
                 key={i.id}
                 name={i.name}
+                price={i.current_price}
                 img={i.image}
-                rank={i.trust_score_rank}
+                symbol={i.symbol}
                 url={i.url}
+                currencySymbol={currencySymbol}
               />
             ))}
           </HStack>
         </>
       )}
     </Container>
-  );
-};
-
-const ExchangeCard = ({ name, img, rank, url }) => {
-  return (
-    <a href={url} target={"blank"}>
-      <VStack
-        w={"40"}
-        shadow={"lg"}
-        p={"8"}
-        borderRadius={"lg"}
-        transition={"all 0.3s"}
-        m={"4"}
-        css={{
-          "&:hover": {
-            transform: "scale(1.1)",
-          },
-        }}
-      >
-        <Image
-          src={img}
-          w={"10"}
-          h={"10"}
-          objectFit={"contain"}
-          alt={"Exchange"}
-        />
-        <Heading size={"md"} noOfLines={1}>
-          {rank}
-        </Heading>
-        <Text noOfLines={1}>{name}</Text>
-      </VStack>
-    </a>
   );
 };
 

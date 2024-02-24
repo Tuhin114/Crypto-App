@@ -21,6 +21,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { server } from "../index";
 import Error from "./Error";
+import Chart from "./Chart";
 
 const CoinDetails = () => {
   const [coin, setCoin] = useState({});
@@ -58,7 +59,7 @@ const CoinDetails = () => {
       ) : (
         <>
           <Box width={"full"} borderWidth={1}>
-            Box
+            <Chart currency={currencySymbol} />
           </Box>
 
           {/*Button*/}

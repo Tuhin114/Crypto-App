@@ -22,21 +22,33 @@ ChartJS.register(
 );
 
 const Chart = ({ arr = [], currency, days }) => {
-  const prices = [1, 2, 34];
-  const date = ["12/2/22", "23/2/25", "54/2/21"];
-  const data = {
-    labels: date,
-    datasets: [
-      {
-        label: `Price in ${currency}`,
-        data: prices,
-        borderColor: "rgba(75,192,192,1)",
-        backgroundColor: "transparent",
-      },
-    ],
-  };
+  const prices = [];
+  const date = [];
 
-  return <Line data={data} options={{ responsive: true }} />;
+  for (let i = 0; i < arr.length; i++) {
+    date.push(new Date(arr[i][0]));
+    prices.push(arr[i][1]);
+  }
+  const data = {};
+
+  return (
+    <Line
+      options={{
+        responsive: true,
+      }}
+      data={{
+        labels: date,
+        datasets: [
+          {
+            label: `Price in ${currency}`,
+            data: prices,
+            borderColor: "rgba(75,192,192,1)",
+            backgroundColor: "transparent",
+          },
+        ],
+      }}
+    />
+  );
 };
 
 export default Chart;

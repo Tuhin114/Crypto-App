@@ -26,27 +26,28 @@ const Chart = ({ arr = [], currency, days }) => {
   const date = [];
 
   for (let i = 0; i < arr.length; i++) {
-    date.push(new Date(arr[i][0]));
+    if (days === "24h") date.push(new Date(arr[i][0]).toLocaleTimeString());
+    else date.push(new Date(arr[i][0]).toLocaleDateString());
     prices.push(arr[i][1]);
   }
-  const data = {};
+  const data = {
+    labels: date,
+    datasets: [
+      {
+        label: `Price in ${currency}`,
+        data: prices,
+        borderColor: "rgba(75,192,192,1)",
+        backgroundColor: "transparent",
+      },
+    ],
+  };
 
   return (
     <Line
       options={{
         responsive: true,
       }}
-      data={{
-        labels: date,
-        datasets: [
-          {
-            label: `Price in ${currency}`,
-            data: prices,
-            borderColor: "rgba(75,192,192,1)",
-            backgroundColor: "transparent",
-          },
-        ],
-      }}
+      data={data}
     />
   );
 };

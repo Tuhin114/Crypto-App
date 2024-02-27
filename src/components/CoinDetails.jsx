@@ -1,6 +1,7 @@
 import {
   Badge,
   Box,
+  Button,
   Container,
   HStack,
   Image,
@@ -24,6 +25,7 @@ import Error from "./Error";
 import Chart from "./Chart";
 
 const CoinDetails = () => {
+  const params = useParams();
   const [coin, setCoin] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -34,7 +36,49 @@ const CoinDetails = () => {
   const currencySymbol =
     currency === "inr" ? "₹" : currency === "eur" ? "€" : "$";
 
-  const params = useParams();
+  const btns = ["24h", "7d", "14d", "30d", "60d", "200d", "365d", "max"];
+
+  const switchChart = (key) => {
+    switch (key) {
+      case "24h":
+        setDays("24h");
+        setLoading(true);
+        break;
+      case "7d":
+        setDays("7d");
+        setLoading(true);
+        break;
+      case "14d":
+        setDays("14d");
+        setLoading(true);
+        break;
+      case "30d":
+        setDays("30d");
+        setLoading(true);
+        break;
+      case "60d":
+        setDays("60d");
+        setLoading(true);
+        break;
+      case "200d":
+        setDays("200d");
+        setLoading(true);
+        break;
+      case "365d":
+        setDays("365d");
+        setLoading(true);
+        break;
+      case "max":
+        setDays("max");
+        setLoading(true);
+        break;
+
+      default:
+        setDays("24h");
+        setLoading(true);
+        break;
+    }
+  };
 
   useEffect(() => {
     const fetchCoin = async () => {
@@ -52,7 +96,7 @@ const CoinDetails = () => {
       }
     };
     fetchCoin();
-  }, [params.id]);
+  }, [params.id, currency, days]);
 
   if (error) {
     return <Error message={"Error  Fetching Data"} />;
@@ -68,7 +112,14 @@ const CoinDetails = () => {
             <Chart arr={chartArray} currency={currencySymbol} days={days} />
           </Box>
 
-          {/*Button*/}
+          <HStack p={"4"} overflowX={"auto"}>
+            {btns.map((i) => (
+              <Button key={i} onClick={() => switchChart(i)}>
+                {i}
+              </Button>
+            ))}
+          </HStack>
+
           <RadioGroup value={currency} onChange={setCurrency} p={"8"}>
             <HStack spacing={"4"}>
               <Radio value={"inr"}>INR</Radio>
